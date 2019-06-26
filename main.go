@@ -4,6 +4,7 @@ import (
 	"github.com/henriqueholanda/race-result/application"
 	"github.com/henriqueholanda/race-result/domain"
 	"github.com/henriqueholanda/race-result/domain/pilot_statistics"
+	"github.com/henriqueholanda/race-result/infrastructure/exporter"
 	"github.com/henriqueholanda/race-result/infrastructure/repository"
 )
 
@@ -18,6 +19,7 @@ func main() {
 		repository.NewRaceResult(),
 		domain.NewRaceClassifier(),
 		raceClassifierBuilder,
+		exporter.NewRaceResultExporter(),
 	)
 
 	application.NewApplication(raceResultHandler).Start()

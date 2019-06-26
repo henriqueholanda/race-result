@@ -1,8 +1,8 @@
 package domain
 
 import (
-	"fmt"
 	"github.com/henriqueholanda/race-result/domain/models"
+	"github.com/henriqueholanda/race-result/infrastructure/exporter"
 	"github.com/henriqueholanda/race-result/infrastructure/helper"
 	"github.com/henriqueholanda/race-result/infrastructure/repository"
 	"log"
@@ -13,13 +13,15 @@ type RaceResultHandler struct {
 	repository        *repository.RaceResultRepository
 	raceClassifier    *RaceClassifier
 	raceResultBuilder *RaceResultBuilder
+	exporter          *exporter.RaceResultExporter
 }
 
-func NewRaceResultHandler(repository *repository.RaceResultRepository, raceClassifier *RaceClassifier, raceResultBuilder *RaceResultBuilder) *RaceResultHandler {
+func NewRaceResultHandler(repository *repository.RaceResultRepository, raceClassifier *RaceClassifier, raceResultBuilder *RaceResultBuilder, exporter *exporter.RaceResultExporter) *RaceResultHandler {
 	return &RaceResultHandler{
 		repository:        repository,
 		raceClassifier:    raceClassifier,
 		raceResultBuilder: raceResultBuilder,
+		exporter:          exporter,
 	}
 }
 
@@ -42,7 +44,7 @@ func (rh *RaceResultHandler) GenerateResult() {
 
 	raceResult = rh.getRaceStatistics(raceResult)
 
-	fmt.Println(raceResult)
+	rh.exporter.Export(raceResult)
 }
 
 func (rh *RaceResultHandler) groupRaceResultByPilot(raceResult models.RaceStatistics) map[string]models.RaceStatistics {
