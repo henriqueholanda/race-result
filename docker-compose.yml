@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  app:
+    image: race-result
+    volumes:
+      - ./:/go/src/github.com/henriqueholanda/race-result
+    working_dir: /go/src/github.com/henriqueholanda/race-result
+    command: go run main.go
+
+  dependencies:
+    image: race-result
+    volumes:
+      - ./:/go/src/github.com/henriqueholanda/race-result
+    working_dir: /go/src/github.com/henriqueholanda/race-result
+    command: dep ensure -v
+
+  tests:
+    image: race-result
+    volumes:
+      - ./:/go/src/github.com/henriqueholanda/race-result
+    working_dir: /go/src/github.com/henriqueholanda/race-result
+    command: sh -c "go test -v $$(go list ./... | grep -v /vendor/)"
+
+  coverage:
+    image: race-result
+    volumes:
+      - ./:/go/src/github.com/henriqueholanda/race-result
+    working_dir: /go/src/github.com/henriqueholanda/race-result
+    command: sh -c "go test ./... -coverprofile=c.out"
