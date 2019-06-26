@@ -38,9 +38,9 @@ $ make run
 ```
 > Note: It will show a log of execution that you can follow the running steps
 
-### Project output
+### Application output
 
-To see the project output you need to open the file `race_result.csv` in a editor of your preference.
+To see the application output you need to open the file `race_result.csv` in a editor of your preference.
 
 ### Run tests
 
